@@ -15,9 +15,9 @@
 import {ref} from 'vue'; 
 
 const props = defineProps({
-    titulo: {type: string, required: true},
-    desc: {type: string, required: true},
-    importante: {type: boolean, required: true}
+    titulo: {type: String, required: true},
+    desc: {type: String, required: true},
+    importante: {type: Boolean, required: true}
 });
 const emit = defineEmits(["remove"]);
 
