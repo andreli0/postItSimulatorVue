@@ -15,35 +15,31 @@
     </div>
       <div class="row row-cols-4 row-cols-md-4 g-4 mt-2">
         <div class="col" v-for="(item, i) in posts" :key="i">
-          <div :class="'card' + (item.importante ? ' bg-importante' : ' bg-normal')">
-            <div class="card-body">
-              <div class="card-title">
-                <div class="row justify-content-between">
-                  <div class="col-auto"><h5>{{ item.titulo }}</h5></div>
-                  <div class="col-auto"><button type="button" class="btn-close" aria-label="Close" v-on:click="remove(i)"></button></div>
-                </div>
-              </div>
-              <p class="card-text">{{ item.desc }}</p>
-            </div>
-          </div>
+          <Post :titulo="item.titulo" :desc="item.desc" :importante="item.importante" v-on:remove="remove(i)" />
         </div>
     </div>
   </div>
 </template>
-<script setup>
-import { ref} from 'vue';
+<script setup lang="ts">
+import { ref, reactive} from 'vue';
 
-const titulo = ref("");
-const desc = ref("");
-const select_importante = ref(false);
-const posts = ref([]);
+interface Titulo {
+  titulo: string,
+  desc: string,
+  importante: boolean
+}
+
+const titulo = ref <string>("");
+const desc = ref <string>("");
+const select_importante = ref<boolean>(false);
+const posts = reactive<Titulo[]>([]);
 
 const addPost = () => {
-  posts.value.push(
+  posts.push(
     {
-      "titulo": titulo.value,
-      "desc" : desc.value,
-      "importante" : select_importante.value
+      titulo: titulo.value,
+      desc : desc.value,
+      importante : select_importante.value
     });
   limpiar();
 }
@@ -51,19 +47,12 @@ const addPost = () => {
 const limpiar = () => {
   titulo.value = "";
   desc.value = "";
-  select_importante.value = "";
+  select_importante.value = false;
 }
 
-const remove = (i) => {
-  posts.value.splice(i, 1);
+const remove = (i: number) => {
+  posts.splice(i, 1);
 }
 
 </script>
-<style scoped>
-  .bg-importante{
-    background-color: #eb7061 !important;
-  }
-  .bg-normal{
-    background-color: #fffecc !important;
-  }
-</style>
+
